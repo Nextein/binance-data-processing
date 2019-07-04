@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 # Create features
 
-import candle_shape_preprocessing as pp
 # pp.preprocess_candles('2h')
 data = pd.read_csv("2h_BTC_candle_shape.csv").values
 N = data.shape[0]
@@ -26,9 +25,9 @@ X = []
 Y = []
 
 for i in range(N-6):
-    x = [data[i,:],data[i+1,:],data[i+2,:],data[i+3,:]]
+    x = [data[i, :], data[i+1, :], data[i+2, :], data[i+3, :]]
     X.append(x)
-    y = labels(data[i+4],data[i+5])
+    y = labels(data[i+4], data[i+5])
     Y.append(y)
 
 Y = np.array(Y)
@@ -47,12 +46,11 @@ def sigmoid(x, deriv=False):
         return np.array(a)
     else:
         X = []
-        for i in range(len(x)):
-            X.append(1/(1+np.exp(-x[i])))
-            u = x[i]
+        for j in range(len(x)):
+            X.append(1/(1+np.exp(-x[j])))
+            u = x[j]
         print(u)
         return np.array(X)
-
 
 
 # X = np.array([[0,0,1],[0,1,1],[1,0,1],[1,1,1]])       4x3
@@ -63,13 +61,15 @@ training_iterations = 100
 np.random.seed(1)
 
 # Synapses
-syn0 = np.random.random((4,  1)) - 1                  #3 x1
+syn0 = np.random.random((4,  1)) - 1                  # 3x1
 # syn1 = 2*np.random.random((9,  12)) - 1
 # syn2 = 2*np.random.random((12, 12)) - 1
 # syn3 = 2*np.random.random((12, 9)) - 1
 # syn4 = 2*np.random.random((9,  4)) - 1
 # syn5 = 2*np.random.random((4,  1)) - 1
 
+l6_error = 0
+l6 = 0
 for i in range(training_iterations):
     l0 = X
     l6 = sigmoid(np.dot(l0, syn0))
@@ -79,13 +79,12 @@ for i in range(training_iterations):
     # l5 = sigmoid(np.dot(l4, syn4))
     # l6 = sigmoid(np.dot(l5, syn5))
 
-    # l6_error = Y-l6  # Should get smaller and smaller as we train
+    l6_error = Y-l6  # Should get smaller and smaller as we train
     print(Y.shape)
     print(l6.shape)
     print(X)
 
     l6_delta = l6_error * sigmoid(l6, True)
-
 
     # Updates weights in our network
     # syn0 += np.dot(l0,l6_delta)
@@ -95,7 +94,7 @@ totalError = np.sum(l6_error)
 print(len(Y))
 print(Y[0])
 print(len(l6))
-print(np.column_stack(Y,l6))
+print(np.column_stack(Y, l6))
 
 
 
