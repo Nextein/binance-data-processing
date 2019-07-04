@@ -51,9 +51,9 @@ def calculate_accuracy(gt_labels, pred_labels):
 names = ['s-length', 's-width', 'p-length', 'p-width', 'class']
 # data = pd.read_csv(path, names=names)
 names = ["open", "close", "candle_size", "volume"]
-candles = pd.read_csv("2h_BTC_candle_shape.csv", names=names)
+candles = pd.read_csv("data/2h_BTC_candle_shape.csv", names=names)
 names2 = ["open", "high", "low", "close", "volume"]
-ticks = pd.read_csv("2h_ohlcv_BTCUSDT.csv", names=names2)
+ticks = pd.read_csv("data/2h_ohlcv_BTCUSDT.csv", names=names2)
 
 m = 4 # candles
 open = ticks['open']
@@ -94,7 +94,7 @@ for i in range(1,11):
     h_layers = (8*i,5*i)
     nn = neural_network.MLPClassifier(hidden_layer_sizes=h_layers, max_iter=10000000)
     nn.fit(train_x, train_y)
-    print("NN generated - {}").format(h_layers)
+    print("NN generated - {}".format(h_layers))
 
     # Predict test data
     pred = nn.predict(test_x)
@@ -102,6 +102,7 @@ for i in range(1,11):
     # plot_matrix(calculate_confusion_matrix(test_y, pred))
     # plt.show()
     print("#{}  -  {}".format(h_layers, calculate_accuracy(test_y, pred)))
+
 # print(metrics.classification_report(test_y, pred))
 
 

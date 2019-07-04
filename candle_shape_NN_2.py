@@ -35,7 +35,7 @@ Y = np.array(Y)
 print(len(X))
 # Deep-Q Learning NN
 
-# TODO - Neural network for candle shapes
+# TODO -  Q-Learning NN for candle shapes -> Library for this?
 
 
 def sigmoid(x, deriv=False):

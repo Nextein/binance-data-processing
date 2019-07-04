@@ -9,8 +9,7 @@ f3 = candle size (high-low)
 """
 
 
-def create_dataset(interval,symbol):
-
+def create_dataset(interval, symbol):
 
     data = get_historical_data(symbol=symbol, interval=interval,start="3 year ago", end="now")
 
@@ -22,7 +21,6 @@ def create_dataset(interval,symbol):
     oh = np.column_stack((open, high))
     lc = np.column_stack((low, close))
     ohlc = np.column_stack((oh, lc))
-
 
     # Feature creation:
     feature_name = "{}_{}_candle_shape.csv".format(interval, symbol)

@@ -13,12 +13,10 @@ register_matplotlib_converters()
 # ========================
 start = "29 Apr 2019"
 end = "13 May 2019"
-verbose = False
 interval = '1m'
-data = Binance.get_historical_data('BTCUSDT', interval, start, end)
-np.savetxt("1m_may_2019.csv", data.astype(float).values, delimiter=',')
-# names = ['open', 'high', 'low', 'close', 'volume', '# trades']
-# data = pd.read_csv("1m_may_2018.csv", names=names)
+
+names = ['open', 'high', 'low', 'close', 'volume', '# trades']
+data = pd.read_csv("1m_may_2018.csv", names=names)
 
 print("data fetched.")
 price = data['close'].values
@@ -48,20 +46,14 @@ for ema1 in range(1,15):
         gains = 1
         BUY = []
         max_gains = 0
-        assert(len(buySet) == len(sellSet))
         for i in range(28, len(buySet)):
             if buySet[i]>0 and buySet[i-1]==0:
                 BUY.append(buySet[i])
             elif sellSet[i]>0 and sellSet[i-1]==0 and len(BUY)>0:
                 # Execute sell order -> new_capital
                 gains = (sellSet[i] / BUY[-1]) * gains
-                if gains>max_gains:
+                if gains > max_gains:
                     max_gains = gains
-        if verbose:
-            print('*'*30)
-            print("ema{} + ema{}".format(ema1, ema2))
-            print("result - {}".format(gains))
-            print("max - {}".format(max_gains))
 
         if gains > best_gains:
             best_gains = gains
