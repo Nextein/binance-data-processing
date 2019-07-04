@@ -1,2 +1,8 @@
 [live_system]
 timeframe = '2h'
+
+[EMA]
+datapath = data/CDTBTC_15m.csv
+interval = '15m'
+ema1 = 3
+ema2 = 10
