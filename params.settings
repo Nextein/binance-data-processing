@@ -3,6 +3,7 @@ timeframe = '2h'
 
 [EMA]
 datapath = data/CDTBTC_15m.csv
+log = logs/CDT_ema.log
 interval = '15m'
 ema1 = 3
 ema2 = 10

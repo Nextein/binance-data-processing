@@ -59,7 +59,7 @@ for ema1 in range(1, 15):
             best_max_gains_ema = (ema1, ema2)
 
 
-f = open("ema.log", 'a')
+f = open("logs/ema.log", 'a')
 sys.stdout = f
 
 print("=-"*40)
