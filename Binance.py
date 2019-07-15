@@ -32,8 +32,8 @@ def clean(candles):
     data.pop('quote buy volume')
     data.pop('ignore')
 
+
     data['open time'] = pd.to_datetime(data['open time'], unit='ms')
-    data.set_index('open time', inplace=True)
     return data
 
 
@@ -58,10 +58,10 @@ def get_historical_data(symbol, interval, start, end):
     data.pop('base buy volume')
     data.pop('quote buy volume')
     data.pop('ignore')
-
+    data.pop('# trades')
+    data.pop('volume')
     data['open time'] = pd.to_datetime(data['open time'], unit='ms')
-    data.set_index('open time', inplace=True)
-
+    print(data['open time'].head(15))
     return data
 
 
