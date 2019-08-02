@@ -10,6 +10,7 @@ class MyStrategy(strategy.BacktestingStrategy):
         bar = bars[self.instrument]
         self.info(bar.getClose())
 
+
 # Load the bar feed from CSV file
 feed = quandlfeed.Feed()
 feed.addBarsFromCSV("CDTBTC", "data/CDTBTC_1d.csv")

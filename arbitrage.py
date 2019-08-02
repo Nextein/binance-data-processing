@@ -40,23 +40,54 @@ def check_arbitrage3(verbose, ac, ab, bc):
             print("\tBuy = {}\nSell = {}".format(buy,sell))
 
 
+def arbitrage(WB, WS, BS, verbose=False):  # Different attempt (not sure previous one works)
+    """
+    Formula:
+    (ws - 0.075/100) * (1/wb - 0.075/100) * (1/bs - 0.075/100) > 1
+    :param WB: Alt/BTC
+    :param WS: Alt/USDT
+    :param BS: BTC/USDT
+    :param verbose: Determines how much text output you want: a lot or a little
+    """
+    ws = float(client.get_orderbook_ticker(symbol=WS)['bidPrice'])
+    wb = float(client.get_orderbook_ticker(symbol=WB)['askPrice'])
+    bs = float(client.get_orderbook_ticker(symbol=BS)['askPrice'])
+
+    sell = ws-0.075/100
+    buy = 1 / ( ((1/wb) - 0.075/100) * ((1/bs) - 0.075/100) )
+
+    if sell > buy:
+        print("BUY")
+        print("{} > {}".format(sell, buy))
+
+
 client = Binance.new_client("test")
+count = 0
+while(True):
+    arbitrage('WINBTC', 'WINUSDT', 'BTCUSDT', verbose=True)
+    if count % 1000000 == 0:
+        print(count)
+    count += 1
 
-a1c = client.get_orderbook_ticker(symbol='EOSUSDT')
-a1b = client.get_orderbook_ticker(symbol='EOSBTC')
-bc = client.get_orderbook_ticker(symbol='BTCTUSD')
-a2c = client.get_orderbook_ticker(symbol='ADAUSDT')
-a2b = client.get_orderbook_ticker(symbol='ADABTC')
 
-i=0
-while True:
-    # check_arbitrage3(False, a1c, a1b, bc)
-    # check_arbitrage3(False, a2c, a2b, bc)
-    check_arbitrage4(float(a1c['askPrice']), float(a1b['bidPrice']), float(a2c['bidPrice']), float(a2b['askPrice']), a1c['symbol'])
-    check_arbitrage4(float(a2c['askPrice']), float(a2b['bidPrice']), float(a1c['bidPrice']), float(a1b['askPrice']), a2c['symbol'])
-    if i % 1000000 == 0:
-        print(i)
-    i += 1
+
+
+# TODO - ERROR: Only grabs price values once, not for each loop iteration
+# a1c = client.get_orderbook_ticker(symbol='WINUSDT')
+# a1b = client.get_orderbook_ticker(symbol='WINBTC')
+# bc = client.get_orderbook_ticker(symbol='BTCUSDT')
+# a2c = client.get_orderbook_ticker(symbol='ADAUSDT')
+# a2b = client.get_orderbook_ticker(symbol='ADABTC')
+#
+# i=0
+# while True:
+#     check_arbitrage3(False, a1c, a1b, bc)
+#     # check_arbitrage3(False, a2c, a2b, bc)
+#     # check_arbitrage4(float(a1c['askPrice']), float(a1b['bidPrice']), float(a2c['bidPrice']), float(a2b['askPrice']), a1c['symbol'])
+#     # check_arbitrage4(float(a2c['askPrice']), float(a2b['bidPrice']), float(a1c['bidPrice']), float(a1b['askPrice']), a2c['symbol'])
+#     if i % 1000000 == 0:
+#         print(i)
+#     i += 1
 # check_arbitrage(False,ac,ab,bc)
 
 
